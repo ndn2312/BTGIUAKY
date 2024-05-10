@@ -2,11 +2,11 @@
 echo "hello";
 phpinfo();
 
-$host="mysql-2eb27325-insourceit-0c39.h.aivencloud.com";
+$host="mysql-29f2e3e5-giuaky.l.aivencloud.com";
 
 $user="avnadmin";
-$port="17610";
-$password="AVNS_5Ych6k-xoWyh12cOlnI";
+$port="10600";
+$password="AVNS_H-A3C52kI1HzdzQXnXk";
 
 $con=mysqli_connect($host,$user,$password);
 
