@@ -1,20 +1,20 @@
 <?php
 
 function sayHello($name) {
-	echo "Hello $name!";
+	echo "Bài kiểm tra $name!";
 }
 
 ?>
 
 <html>
 	<head>
-		<title>Advanced Web Development K15-N03</title>
+	<title>Bài kiểm tra giữa kì môn Lập trình web nâng cao-N03</title>
 	</head>
 	<body>
 		<?php 
-		sayHello('K15-N03 2024');		
+		sayHello('giữa kỳ môn lập trình web nâng cao-N03');		
 		?>
-		<form action="checkLogin.php" method="POST">
+		<form action="./Controller/checkLogin.php" method="POST">
 		<a>Username:</a><input type=text name="userName" size =16>
 		<a>Password:</a><input type=password name="passWord" size =16>
 		<input type=submit name=submit value="Login">

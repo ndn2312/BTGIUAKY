@@ -1,44 +1,53 @@
+<?php
+session_start();
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: ../index.php");
+    exit;
+}
+$uri = "mysql://avnadmin:AVNS_H-A3C52kI1HzdzQXnXk@mysql-29f2e3e5-giuaky.l.aivencloud.com:10600/defaultdb?ssl-mode=REQUIRED";
+
+$fields = parse_url($uri);
+
+// build the DSN including SSL settings
+$conn = "mysql:";
+$conn .= "host=" . $fields["host"];
+$conn .= ";port=" . $fields["port"];;
+$conn .= ";dbname=QUANLYSACH";
+$conn .= ";sslmode=verify-ca;sslrootcert='pri/ca.pem'";
+
+try {
+    $db = new PDO($conn, $fields["user"], $fields["pass"]);
+    $sql = "SELECT * FROM Sach LIMIT 5";
+    $stmt = $db->query($sql);
+    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiển thị sách</title>
-</head>
+
 
 <body>
-    <h2>Danh sách 5 sách</h2>
-    <table border="1">
+    <h2>Danh sách Sách</h2>
+    <table>
         <tr>
-            <th>ID</th>
-            <th>Tên sách</th>
-            <th>Tác giả</th>
-            <th>Năm xuất bản</th>
+            <th>Mã Sách</th>
+            <th>Tên Sách</th>
+            <th>Số Lượng</th>
         </tr>
         <?php
-        include 'db_connect.php'; // Kết nối đến cơ sở dữ liệu
-
-        // Truy vấn dữ liệu từ bảng sách
-        $sql = "SELECT * FROM sach LIMIT 5"; // Lấy 5 bản ghi đầu tiên
-        $result = $conn->query($sql);
-
-        // Hiển thị dữ liệu
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row["id"] . "</td>";
-                echo "<td>" . $row["ten_sach"] . "</td>";
-                echo "<td>" . $row["tac_gia"] . "</td>";
-                echo "<td>" . $row["nam_xuat_ban"] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "Không có sách nào trong cơ sở dữ liệu.";
+        foreach ($books as $book) {
+            echo "<tr>";
+            echo "<td>" . $book['MaSach'] . "</td>";
+            echo "<td>" . $book['TenSach'] . "</td>";
+            echo "<td>" . $book['SoLuong'] . "</td>";
+            echo "</tr>";
         }
-        $conn->close(); // Đóng kết nối
         ?>
     </table>
+    <br>
 </body>
 
 </html>
